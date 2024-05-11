@@ -32,18 +32,18 @@ public class Main {
             System.out.println(piece);
         }
 
-        //
+    
         System.out.println("");
         //
 
-        // Order Encomenda3 = new Order("orderNumber1", "P4", 1, 7);
+        Order Encomenda3 = new Order("orderNumber1", "P4", 1, 7);
 
-        //  Piece p3 = new Piece(Encomenda3.getWorkPiece());
-        // List<Piece> listP3 = p3.getProduction(Encomenda3.getDueDate(),mm);
+        Piece p3 = new Piece(Encomenda3.getWorkPiece());
+        List<Piece> listP3 = p3.getProduction(Encomenda3.getDueDate(),mm);
 
-        // for (Piece piece : listP3) {
-        //     System.out.println(piece);
-        // }
+        for (Piece piece : listP3) {
+            System.out.println(piece);
+        }
 
         //
         System.out.println("");

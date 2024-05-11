@@ -97,6 +97,7 @@ public class Piece {
         Piece p = this;
         int n = finalDay;
     
+        
         while (p != null) {
             if (p.tool != null) {
                 int startDay = mm.findLeastOccupiedMachineWithTool(p.tool, n);

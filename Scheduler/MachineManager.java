@@ -11,19 +11,25 @@ public class MachineManager {
     public int findLeastOccupiedMachineWithTool(String tool, int maxDay) {
         Machine selectedMachine = null;
         int highestAvailableDay = 0;
-    
+        
         for (Machine machine : this.machines) {
+            
             if (machine.hasTool(tool)) {
-                // Get the highest occupied day less than maxDay
-                int maxUnderMaxDay = machine.getOccupiedDays().stream()
-                                            .filter(day -> day < maxDay)
-                                            .max(Integer::compare)
-                                            .orElse(-1); // No valid days found
-    
+                int maxUnderMaxDay = 0;
                 // If no occupied days and tool matches, use maxDay
-                if (maxUnderMaxDay == -1 && machine.getOccupiedDays().isEmpty()) {
+                if (machine.getOccupiedDays().isEmpty()) {
                     machine.addDay(maxDay);
                     return maxDay;
+                }
+                for (int i=maxDay;i>0;i--){
+
+    
+
+                // Get the highest occupied day less than maxDay
+                    if (!machine.getOccupiedDays().contains(i)){
+                       maxUnderMaxDay = maxDay-i;
+                        i = maxDay;
+                    }
                 }
     
                 // Find the next highest day that is still under maxDay
@@ -31,7 +37,8 @@ public class MachineManager {
                     highestAvailableDay = maxUnderMaxDay;
                     selectedMachine = machine;
                 }
-            }
+            
+        }
         }
     
         // If a suitable machine is found
