@@ -10,7 +10,6 @@ public class Main {
         list.add(new Machine("M2"));
         list.add(new Machine("M3"));
         list.add(new Machine("M4"));
-
         MachineManager mm = new MachineManager(list);
         Piece p = new Piece(Encomenda1.getWorkPiece());
         List<Piece> listP = p.getProduction(Encomenda1.getDueDate(),mm);

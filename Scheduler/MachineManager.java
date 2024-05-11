@@ -17,18 +17,16 @@ public class MachineManager {
             if (machine.hasTool(tool)) {
                 int maxUnderMaxDay = 0;
                 // If no occupied days and tool matches, use maxDay
-                if (machine.getOccupiedDays().isEmpty()) {
+                if (machine.getOccupiedDays().isEmpty() || !machine.getOccupiedDays().contains(maxDay)) {
                     machine.addDay(maxDay);
                     return maxDay;
                 }
                 for (int i=maxDay;i>0;i--){
 
-    
-
                 // Get the highest occupied day less than maxDay
                     if (!machine.getOccupiedDays().contains(i)){
-                       maxUnderMaxDay = maxDay-i;
-                        i = maxDay;
+                       maxUnderMaxDay = i;
+                       i = 0;
                     }
                 }
     
