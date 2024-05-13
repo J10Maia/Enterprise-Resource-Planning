@@ -1,0 +1,20 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\Joao\Documents\Client\Client.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\Joao\Documents\Client\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+Substitute:	JAVA_HOME = C:\Program Files\Java\jre-1.8
+Substitute:	PATH = C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files (x86)\dotnet\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;c:\program files (x86)\iracing\d3dgear;C:\Users\Joao\AppData\Local\Microsoft\WindowsApps;C:\Users\Joao\AppData\Local\Programs\Microsoft VS Code\bin;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\apache-maven-3.9.6\bin;C:\Users\Joao\AppData\Local\Programs\Python\Launcher\;C:\Users\Joao\AppData\Local\Microsoft\WindowsApps;C:\Users\Joao\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Joao\AppData\Local\GitHubDesktop\bin;C:\Program Files\Java\jdk-21\bin;;C:\Users\Joao\AppData\Local\Programs\oh-my-posh\bin;C:\Users\Joao\AppData\Local\Microsoft\WinGet\Packages\ajeetdsouza.zoxide_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\Joao\AppData\Local\Microsoft\WinGet\Packages\junegunn.fzf_Microsoft.Winget.Source_8wekyb3d8bbwe;;C:\Program Files\Java\jre-1.8\bin
+JRE paths:	C:\Program Files\Java\jre-1.8;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files (x86)\dotnet\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;c:\program files (x86)\iracing\d3dgear;C:\Users\Joao\AppData\Local\Microsoft\WindowsApps;C:\Users\Joao\AppData\Local\Programs\Microsoft VS Code\bin;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\apache-maven-3.9.6\bin;C:\Users\Joao\AppData\Local\Programs\Python\Launcher\;C:\Users\Joao\AppData\Local\Microsoft\WindowsApps;C:\Users\Joao\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Joao\AppData\Local\GitHubDesktop\bin;C:\Program Files\Java\jdk-21\bin;;C:\Users\Joao\AppData\Local\Programs\oh-my-posh\bin;C:\Users\Joao\AppData\Local\Microsoft\WinGet\Packages\ajeetdsouza.zoxide_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\Joao\AppData\Local\Microsoft\WinGet\Packages\junegunn.fzf_Microsoft.Winget.Source_8wekyb3d8bbwe;;C:\Program Files\Java\jre-1.8\bin
+Check launcher:	C:\Program Files\Java\jre-1.8\bin\javaw.exe (OK)
+Version string: 1.008.000_401 / 64-Bit (OK)
+Launcher:	C:\Program Files\Java\jre-1.8\bin\javaw.exe
+Launcher args:	-jar "C:\Users\Joao\Documents\Client\Client.exe"
+Args length:	48/32768 chars
+Exit code:	0
