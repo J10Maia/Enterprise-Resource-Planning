@@ -56,8 +56,15 @@ public class Piece {
         this.workPiece = workPiece;
     }
     
+    public String getWorkPiece(){
+        return this.workPiece;
+    }
 
-    private Piece getPreviousPiece() {
+    public int getDay(){
+        return this.day;
+    }
+
+    public Piece getPreviousPiece() {
         switch (workPiece) {
             case "P1":
                 return null;
@@ -92,7 +99,7 @@ public class Piece {
        this.day = (int) Math.floor((day*60 - this.time)/60) ;
     }
 
-    // Dada uma peca e um dia final, devolve uma lista com todas as pecas necessarias para a sua construcao, tendo em conta que estas pessas ja teem num metodo o dia em que tem que comecar a sua producao
+    // Dada uma peca e um dia final, devolve uma lista com todas as pecas necessarias para a sua construcao, tendo em conta que estas pecas ja teem num metodo o dia em que tem que comecar a sua producao
     public List<Piece> getProduction(int finalDay, MachineManager mm) {
         List<Piece> list = new ArrayList<>();
         Piece p = this;
