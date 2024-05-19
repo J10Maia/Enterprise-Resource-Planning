@@ -13,7 +13,7 @@ Send production table to Database ✅
 
 Calculate each orders price for the consumer
 
-Grafical User Interface (GUI)
+Grafical User Interface (GUI) ✅
 
 ## Contributors ✨
 
