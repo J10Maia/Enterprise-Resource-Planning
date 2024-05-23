@@ -38,6 +38,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 tableBody.appendChild(tr);
             });
+
+            // Populate Order Cost per Piece table
+            const orderCostTableBody = document.querySelector('#orderCostTable tbody');
+            data.forEach(row => {
+                const orderNumber = row.number;
+                const quantity = parseInt(row.quantity);
+
+                const pieceCost = (Math.ceil(quantity * 55/4));
+
+                const newRow = orderCostTableBody.insertRow();
+                const cell1 = newRow.insertCell(0);
+                const cell2 = newRow.insertCell(1);
+
+                cell1.innerText = orderNumber;
+                cell2.innerText = `$${pieceCost}`;
+            });
         })
         .catch(error => console.error('Error fetching orders:', error));
 
