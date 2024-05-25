@@ -26,6 +26,8 @@ public class Main {
         }
 
         MachineManager mm = new MachineManager(machines);
+        int currentDay = 1;
+        int sleepPeriods = 0;
 
         // Continuously fetch new orders every 10 seconds
         while (true) {
@@ -37,18 +39,23 @@ public class Main {
                 } else {
                     // Process each order
                     for (Order order : orders) {
-                        Piece p = new Piece(order.getWorkPiece());
-                        List<Piece> listP = p.getProduction(order.getDueDate(), mm);
+                        List<Piece> allPieces = new ArrayList<>();
+
+                        for (int i = 0; i < order.getQuantity(); i++) {
+                            Piece piece = new Piece(order.getWorkPiece());
+                            List<Piece> listP = piece.getProduction(order.getDueDate(), mm);
+                            allPieces.addAll(listP);
+                        }
 
                         System.out.println("Processing order: " + order.getNumber());
-                        for (Piece piece : listP) {
+                        for (Piece piece : allPieces) {
                             System.out.println(piece);
                         }
                         System.out.println(""); // For better readability between orders
 
                         // Insert the processed order and its transformations into the database
                         try {
-                            dbManager.insertOrder(order, listP);
+                            dbManager.insertOrder(order, allPieces);
                         } catch (SQLException e) {
                             System.out.println("Failed to insert order " + order.getNumber() + ": " + e.getMessage());
                         }
@@ -71,6 +78,12 @@ public class Main {
 
                 // Sleep for 10 seconds before fetching new orders again
                 Thread.sleep(10000);
+                sleepPeriods++;
+                if (sleepPeriods == 6) {
+                    currentDay++;
+                    System.out.println("Days passed: " + currentDay);
+                    sleepPeriods = 0;
+                }
 
             } catch (InterruptedException e) {
                 System.out.println("Interrupted: " + e.getMessage());
