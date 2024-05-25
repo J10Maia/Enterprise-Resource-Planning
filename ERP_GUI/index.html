@@ -1,60 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ERP GUI</title>
+    <title>ERP</title>
     <style>
+        /* Your existing styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #333; /* Dark grey background */
+            color: #f4f4f9; /* Light text color */
             margin: 0;
             padding: 20px;
         }
-        h1 {
-            color: #333;
+        h1, h2 {
+            color: #f4f4f9; /* Light text color */
             text-align: center;
+        }
+        h1 {
             margin-bottom: 10px;
         }
         h2 {
-            color: #555;
-            text-align: center;
             margin-top: 0;
             margin-bottom: 20px;
             font-weight: normal;
         }
+        .current-day {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #f4f4f9;
+            font-size: 50px;
+        }
+        /* Table styles */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #444; /* Dark grey background for tables */
+            color: #f4f4f9; /* Light text color for table content */
+            border-radius: 8px; /* Rounded corners */
+            overflow: hidden; /* Ensures rounded corners are applied */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
         }
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #555; /* Darker border for contrast */
         }
         th, td {
             padding: 12px;
             text-align: left;
         }
         th {
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #777; /* Different color for headers */
+            color: #f4f4f9; /* Light text color for headers */
+        }
+        td.index {
+            background-color: #555; /* Different color for index columns */
         }
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #4f4f4f; /* Slightly lighter grey for alternating rows */
         }
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #5f5f5f; /* Lighter grey for hover effect */
+        }
+        tbody tr:hover {
+            background-color: #666; /* Slightly lighter grey on hover for table rows */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+        tbody td {
+            border-bottom: 1px solid #555; /* Bottom border for cells */
+        }
+        tbody tr:last-child td {
+            border-bottom: none; /* Remove bottom border for last row */
+        }
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: #777; /* Same color as headers */
         }
     </style>
 </head>
 <body>
-    <h1>ERP GUI</h1>
+    <div class="current-day" id="currentDay">Day: </div>
+    <h1>Enterprise Resource Management Dashboard</h1>
     <h2>Orders</h2>
     
     <table id="ordersTable">
         <thead>
             <tr>
-                <th>Number</th>
+                <th class="index">Number</th>
                 <th>Workpiece</th>
                 <th>Quantity</th>
                 <th>Due Date</th>
@@ -73,7 +105,7 @@
     <table id="planningTable">
         <thead>
             <tr>
-                <th>ID</th>
+                <th class="index">ID</th>
                 <th>Day</th>
                 <th>Initial Piece</th>
                 <th>Final Piece</th>
@@ -89,7 +121,7 @@
     <table id="orderCostTable">
         <thead>
             <tr>
-                <th>Order Number</th>
+                <th class="index">Order Number</th>
                 <th>Piece Cost</th>
             </tr>
         </thead>

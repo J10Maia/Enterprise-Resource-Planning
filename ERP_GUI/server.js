@@ -44,6 +44,26 @@ app.get('/api/planningtable', async (req, res) => {
     }
 });
 
+app.get('/api/duration', async (req, res) => {
+    try {
+        const result = await client.query("SELECT * FROM infi2024.duration");
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching planning data');
+    }
+});
+
+app.get('/api/current_minute', async (req, res) => {
+    try {
+        const result = await client.query("SELECT * FROM infi2024.current_minute ORDER BY minute DESC LIMIT 1");
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching planning data');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
