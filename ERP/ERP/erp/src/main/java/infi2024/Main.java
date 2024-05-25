@@ -26,6 +26,17 @@ public class Main {
         }
 
         MachineManager mm = new MachineManager(machines);
+        int minutesPassed = 0;
+        int sleepPeriods = 0;
+
+        // Fetch the current minute value from the database
+        try {
+            minutesPassed = dbManager.getCurrentMinute();
+            System.out.println("Starting from minute: " + minutesPassed);
+        } catch (SQLException e) {
+            System.out.println("Failed to fetch current minute: " + e.getMessage());
+            return;
+        }
 
         // Continuously fetch new orders every 10 seconds
         while (true) {
@@ -37,20 +48,39 @@ public class Main {
                 } else {
                     // Process each order
                     for (Order order : orders) {
-                        Piece p = new Piece(order.getWorkPiece());
-                        List<Piece> listP = p.getProduction(order.getDueDate(), mm);
+                        List<Piece> allPieces = new ArrayList<>();
+                        int beginDate = -1;  // Initialize with an invalid value
+
+                        for (int i = 0; i < order.getQuantity(); i++) {
+                            Piece piece = new Piece(order.getWorkPiece());
+                            List<Piece> listP = piece.getProduction(order.getDueDate(), mm);
+                            allPieces.addAll(listP);
+                            // Set beginDate to the first piece's production date
+                            if (beginDate == -1 && !listP.isEmpty()) {
+                                beginDate = listP.get(0).getDay();
+                            }
+                        }
+
+                        int finishDate = order.getDueDate();  // Set finish date to order's due date
 
                         System.out.println("Processing order: " + order.getNumber());
-                        for (Piece piece : listP) {
+                        for (Piece piece : allPieces) {
                             System.out.println(piece);
                         }
                         System.out.println(""); // For better readability between orders
 
                         // Insert the processed order and its transformations into the database
                         try {
-                            dbManager.insertOrder(order, listP);
+                            dbManager.insertOrder(order, allPieces);
                         } catch (SQLException e) {
                             System.out.println("Failed to insert order " + order.getNumber() + ": " + e.getMessage());
+                        }
+
+                        // Insert the begin and finish dates of the order
+                        try {
+                            dbManager.insertDuration(order.getNumber(), beginDate, finishDate);
+                        } catch (SQLException e) {
+                            System.out.println("Failed to insert duration for order " + order.getNumber() + ": " + e.getMessage());
                         }
 
                         // Update occupied days for each machine
@@ -71,6 +101,19 @@ public class Main {
 
                 // Sleep for 10 seconds before fetching new orders again
                 Thread.sleep(10000);
+                sleepPeriods++;
+                if (sleepPeriods == 6) {
+                    minutesPassed++;
+                    System.out.println("Minutes passed: " + minutesPassed);
+                    sleepPeriods = 0;
+
+                    // Update the current minute in the database
+                    try {
+                        dbManager.updateCurrentMinute(minutesPassed);
+                    } catch (SQLException e) {
+                        System.out.println("Failed to update current minute: " + e.getMessage());
+                    }
+                }
 
             } catch (InterruptedException e) {
                 System.out.println("Interrupted: " + e.getMessage());

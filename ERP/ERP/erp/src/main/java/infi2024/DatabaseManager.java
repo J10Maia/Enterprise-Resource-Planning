@@ -18,12 +18,12 @@ public class DatabaseManager {
     // ID | Day | Peca Inicial | Peca Final
     public void setupDatabase() throws SQLException {
         String createSchemaSQL = "CREATE SCHEMA IF NOT EXISTS infi2024";
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.planningtable ("
-                              + "id SERIAL PRIMARY KEY, "
-                              + "day INT NOT NULL, "
-                              + "peca_inicial VARCHAR(255) NOT NULL, "
-                              + "peca_final VARCHAR(255) NOT NULL, "
-                              + "CONSTRAINT unique_id UNIQUE (id))";
+        String createPlanningTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.planningtable ("
+                                      + "id SERIAL PRIMARY KEY, "
+                                      + "day INT NOT NULL, "
+                                      + "peca_inicial VARCHAR(255) NOT NULL, "
+                                      + "peca_final VARCHAR(255) NOT NULL, "
+                                      + "CONSTRAINT unique_id UNIQUE (id))";
 
         String createPlannedOrdersTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.planned_orders ("
                                             + "order_number VARCHAR(255) PRIMARY KEY)";
@@ -34,11 +34,21 @@ public class DatabaseManager {
                                       + "tools VARCHAR(255) NOT NULL, "
                                       + "occupied_days VARCHAR(255))"; // Store occupied days as a comma-separated string
 
+        String createCurrentMinuteTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.current_minute ("
+                                            + "minute INT PRIMARY KEY)";
+
+        String createDurationTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.duration ("
+                                       + "order_number VARCHAR(255) PRIMARY KEY, "
+                                       + "begin_date INT NOT NULL, "
+                                       + "finish_date INT NOT NULL)";
+
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(createSchemaSQL);  // Create the schema if it doesn't exist
-            stmt.execute(createTableSQL);   // Create the planningtable if it doesn't exist
+            stmt.execute(createPlanningTableSQL);   // Create the planningtable if it doesn't exist
             stmt.execute(createPlannedOrdersTableSQL); // Create the planned_orders table
             stmt.execute(createMachineTableSQL); // Create the machine table
+            stmt.execute(createCurrentMinuteTableSQL); // Create the current_minute table
+            stmt.execute(createDurationTableSQL); // Create the duration table
             System.out.println("Database schema and tables setup complete.");
 
             // Insert initial machine data with multiple instances
@@ -50,11 +60,19 @@ public class DatabaseManager {
 
             stmt.execute(insertMachinesSQL);
             System.out.println("Initial machine data inserted.");
+
+            // Insert default value into current_minute table if not exists
+            String insertDefaultCurrentMinuteSQL = "INSERT INTO infi2024.current_minute (minute) VALUES (0) "
+                                                 + "ON CONFLICT (minute) DO NOTHING";
+
+            stmt.execute(insertDefaultCurrentMinuteSQL);
+            System.out.println("Default current minute value inserted.");
         } catch (SQLException e) {
             System.out.println("Error setting up database: " + e.getMessage());
             throw e;
         }
     }
+
     //Fetch all orders from the database
     public List<Order> getAllOrders() throws SQLException {
         List<Order> orders = new ArrayList<>();
@@ -165,6 +183,38 @@ public class DatabaseManager {
             throw e;
         }
     }
+
+    public void updateCurrentMinute(int minute) throws SQLException {
+        String sql = "INSERT INTO infi2024.current_minute (minute) VALUES (?) ON CONFLICT (minute) DO UPDATE SET minute = excluded.minute";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, minute);
+            pstmt.executeUpdate();
+        }
+    }
+
+    public int getCurrentMinute() throws SQLException {
+        String sql = "SELECT minute FROM infi2024.current_minute ORDER BY minute DESC LIMIT 1";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt("minute");
+            } else {
+                throw new SQLException("Failed to fetch the current minute from the database.");
+            }
+        }
+    }
+    
+    public void insertDuration(String orderNumber, int beginDate, int finishDate) throws SQLException {
+        String sql = "INSERT INTO infi2024.duration (order_number, begin_date, finish_date) VALUES (?, ?, ?) "
+                   + "ON CONFLICT (order_number) DO UPDATE SET begin_date = excluded.begin_date, finish_date = excluded.finish_date";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, orderNumber);
+            pstmt.setInt(2, beginDate);
+            pstmt.setInt(3, finishDate);
+            pstmt.executeUpdate();
+        }
+    }
+    
     // Close the connection (assuming this method is part of DatabaseManager)
     public void close() throws SQLException {
         if (conn != null && !conn.isClosed()) {
