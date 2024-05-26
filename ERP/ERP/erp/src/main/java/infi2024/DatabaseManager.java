@@ -15,7 +15,7 @@ public class DatabaseManager {
         this.conn = DriverManager.getConnection(url, user, password);
         System.out.println("Connected to the PostgreSQL server successfully.");
     }
-    // ID | Day | Peca Inicial | Peca Final
+    // Setup the database schema and tables
     public void setupDatabase() throws SQLException {
         String createSchemaSQL = "CREATE SCHEMA IF NOT EXISTS infi2024";
         String createPlanningTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.planningtable ("
@@ -24,24 +24,27 @@ public class DatabaseManager {
                                       + "peca_inicial VARCHAR(255) NOT NULL, "
                                       + "peca_final VARCHAR(255) NOT NULL, "
                                       + "CONSTRAINT unique_id UNIQUE (id))";
-
+    
         String createPlannedOrdersTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.planned_orders ("
                                             + "order_number VARCHAR(255) PRIMARY KEY)";
-
+    
         String createMachineTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.machine ("
                                       + "machine_id SERIAL PRIMARY KEY, "
                                       + "machine_type VARCHAR(255) NOT NULL, "
                                       + "tools VARCHAR(255) NOT NULL, "
                                       + "occupied_days VARCHAR(255))"; // Store occupied days as a comma-separated string
-
+    
         String createCurrentMinuteTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.current_minute ("
                                             + "minute INT PRIMARY KEY)";
-
+    
         String createDurationTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.duration ("
                                        + "order_number VARCHAR(255) PRIMARY KEY, "
                                        + "begin_date INT NOT NULL, "
                                        + "finish_date INT NOT NULL)";
-
+    
+        String createRefusedOrderTableSQL = "CREATE TABLE IF NOT EXISTS infi2024.refused_order ("
+                                          + "order_number VARCHAR(255) PRIMARY KEY)";
+    
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(createSchemaSQL);  // Create the schema if it doesn't exist
             stmt.execute(createPlanningTableSQL);   // Create the planningtable if it doesn't exist
@@ -49,22 +52,23 @@ public class DatabaseManager {
             stmt.execute(createMachineTableSQL); // Create the machine table
             stmt.execute(createCurrentMinuteTableSQL); // Create the current_minute table
             stmt.execute(createDurationTableSQL); // Create the duration table
+            stmt.execute(createRefusedOrderTableSQL); // Create the refused_order table
             System.out.println("Database schema and tables setup complete.");
-
+    
             // Insert initial machine data with multiple instances
             String insertMachinesSQL = "INSERT INTO infi2024.machine (machine_type, tools, occupied_days) VALUES "
                                      + "('M1', 'T1,T2,T3', ''), ('M1', 'T1,T2,T3', ''), ('M1', 'T1,T2,T3', ''),"
                                      + "('M2', 'T1,T2,T3', ''), ('M2', 'T1,T2,T3', ''), ('M2', 'T1,T2,T3', ''),"
                                      + "('M3', 'T1,T4,T5', ''), ('M3', 'T1,T4,T5', ''), ('M3', 'T1,T4,T5', ''),"
                                      + "('M4', 'T1,T4,T6', ''), ('M4', 'T1,T4,T6', ''), ('M4', 'T1,T4,T6', '');";
-
+    
             stmt.execute(insertMachinesSQL);
             System.out.println("Initial machine data inserted.");
-
+    
             // Insert default value into current_minute table if not exists
             String insertDefaultCurrentMinuteSQL = "INSERT INTO infi2024.current_minute (minute) VALUES (0) "
                                                  + "ON CONFLICT (minute) DO NOTHING";
-
+    
             stmt.execute(insertDefaultCurrentMinuteSQL);
             System.out.println("Default current minute value inserted.");
         } catch (SQLException e) {
@@ -72,14 +76,16 @@ public class DatabaseManager {
             throw e;
         }
     }
+    
 
     //Fetch all orders from the database
     public List<Order> getAllOrders() throws SQLException {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT o.Number, o.WorkPiece, o.Quantity, o.DueDate, o.LatePenalty, o.EarlyPenalty, o.ClientNameId "
-                     + "FROM infi2024.orders o "
-                     + "LEFT JOIN infi2024.planned_orders po ON o.Number = po.order_number "
-                     + "WHERE po.order_number IS NULL";
+                 + "FROM infi2024.orders o "
+                 + "LEFT JOIN infi2024.planned_orders po ON o.Number = po.order_number "
+                 + "LEFT JOIN infi2024.refused_order ro ON o.Number = ro.order_number "
+                 + "WHERE po.order_number IS NULL AND ro.order_number IS NULL";
         try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
@@ -214,6 +220,18 @@ public class DatabaseManager {
             pstmt.executeUpdate();
         }
     }
+
+    public void insertRefusedOrder(Order order) throws SQLException {
+        String query = "INSERT INTO infi2024.refused_order (order_number) VALUES (?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, order.getNumber());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error inserting refused order: " + e.getMessage());
+            throw e;
+        }
+    }
+    
     
     // Close the connection (assuming this method is part of DatabaseManager)
     public void close() throws SQLException {

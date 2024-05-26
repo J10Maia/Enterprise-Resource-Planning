@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetch and display the current day
     displayCurrentDay();
 
+    // Fetch refused orders
+    displayRefusedOrders();
+
     // Fetch orders data
     fetchOrdersData();
 
@@ -15,14 +18,27 @@ function displayCurrentDay() {
         .then(data => {
             if (data.length > 0) {
                 const dayInt = data[0].minute; // Assuming 'minute' holds the day integer
-                document.getElementById('currentDay').textContent = dayInt;
+                document.getElementById('currentDay').textContent = `Day: ${dayInt}`;
             } else {
-                document.getElementById('currentDay').textContent = 'Day not available';
+                document.getElementById('currentDay').textContent = 'Day: Not available';
             }
         })
         .catch(error => {
             console.error('Error fetching current day:', error);
-            document.getElementById('currentDay').textContent = 'Error fetching day';
+            document.getElementById('currentDay').textContent = 'Day: Error fetching day';
+        });
+}
+
+function displayRefusedOrders() {
+    fetch('http://localhost:3000/api/refused_order')
+        .then(response => response.json())
+        .then(data => {
+            const refusedOrders = data.map(order => order.order_number).join(', ') || 'None';
+            document.getElementById('refusedOrders').textContent = `Refused Orders: ${refusedOrders}`;
+        })
+        .catch(error => {
+            console.error('Error fetching refused orders:', error);
+            document.getElementById('refusedOrders').textContent = 'Refused Orders: Error fetching orders';
         });
 }
 
@@ -93,8 +109,7 @@ function calculateAndPopulateOrderCost(ordersData, durationMap) {
         if (duration) {
             const Pt = calculatePt(duration.begin_date, duration.finish_date);
             const Rc = calculateRc(quantity);
-            const Dc = calculateDc(duration.begin_date, duration.finish_date, Rc);
-            const Pc = calculatePc(Pt, Rc, Dc, quantity);
+            const Pc = calculatePc(Pt, Rc);
 
             const newRow = orderCostTableBody.insertRow();
             const cell1 = newRow.insertCell(0);
@@ -117,13 +132,9 @@ function calculateRc(quantity) {
     return Math.ceil(quantity * 55 / 4);
 }
 
-function calculatePc(Pt, Rc, Dc, quantity) {
+function calculatePc(Pt, Rc) {
     // Implement the actual calculation logic for Pc here
-    return (Pt + Rc + Dc)/quantity;
-}
-
-function calculateDc(beginDate, finishDate, Rc) {
-    return  Rc *(parseInt(finishDate) - parseInt(beginDate)) * 0.01;
+    return (Pt * Rc) / 100;
 }
 
 function fetchPlanningData() {

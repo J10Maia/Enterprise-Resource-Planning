@@ -38,6 +38,9 @@ public class Main {
             return;
         }
 
+        // List to store refused orders
+        List<Order> refusedOrders = new ArrayList<>();
+
         // Continuously fetch new orders every 10 seconds
         while (true) {
             try {
@@ -50,15 +53,34 @@ public class Main {
                     for (Order order : orders) {
                         List<Piece> allPieces = new ArrayList<>();
                         int beginDate = -1;  // Initialize with an invalid value
+                        boolean orderRefused = false;
 
                         for (int i = 0; i < order.getQuantity(); i++) {
                             Piece piece = new Piece(order.getWorkPiece());
-                            List<Piece> listP = piece.getProduction(order.getDueDate(), mm);
-                            allPieces.addAll(listP);
-                            // Set beginDate to the first piece's production date
-                            if (beginDate == -1 && !listP.isEmpty()) {
-                                beginDate = listP.get(0).getDay();
+                            if (piece.totalTime() + minutesPassed > order.getDueDate()) {
+                                orderRefused = true;
+                                break;  // Skip this order
+                            } else {
+                                List<Piece> listP = piece.getProduction(order.getDueDate(), mm);
+                                allPieces.addAll(listP);
+                                // Set beginDate to the first piece's production date
+                                if (beginDate == -1 && !listP.isEmpty()) {
+                                    beginDate = listP.get(0).getDay();
+                                }
                             }
+                        }
+
+                        if (orderRefused) {
+                            refusedOrders.add(order);
+                            System.out.println("Order refused: " + order.getNumber());
+
+                            // Insert the refused order into the database
+                            try {
+                                dbManager.insertRefusedOrder(order);
+                            } catch (SQLException e) {
+                                System.out.println("Failed to insert refused order " + order.getNumber() + ": " + e.getMessage());
+                            }
+                            continue;  // Skip the rest of the loop for this order
                         }
 
                         int finishDate = order.getDueDate();  // Set finish date to order's due date

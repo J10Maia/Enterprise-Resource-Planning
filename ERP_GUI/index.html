@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ERP</title>
+    <title>ERP GUI</title>
     <style>
         /* Your existing styles */
         body {
@@ -23,12 +23,15 @@
             margin-bottom: 20px;
             font-weight: normal;
         }
-        .current-day {
+        .current-day, .refused-orders {
             position: absolute;
             top: 10px;
             right: 20px;
             color: #f4f4f9;
-            font-size: 50px;
+            font-size: 18px;
+        }
+        .refused-orders {
+            top: 40px; /* Adjust this value to position below the current day */
         }
         /* Table styles */
         table {
@@ -80,7 +83,8 @@
 </head>
 <body>
     <div class="current-day" id="currentDay">Day: </div>
-    <h1>Enterprise Resource Management Dashboard</h1>
+    <div class="refused-orders" id="refusedOrders">Refused Orders: </div>
+    <h1>ERP GUI</h1>
     <h2>Orders</h2>
     
     <table id="ordersTable">

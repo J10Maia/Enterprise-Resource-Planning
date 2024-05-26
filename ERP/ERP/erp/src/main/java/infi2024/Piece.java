@@ -93,6 +93,11 @@ public class Piece {
                 return null;  // Improved default case to handle unexpected inputs
         }
     }
+    public int totalTime(){
+        Piece p = this.getPreviousPiece();
+        if (p == null) return 1;
+        else return p.totalTime() + 1;
+    }
 
     // Damos o dia em que a peca tem que estar pronta e coloca a variavel local do dia da peca para quando a peca tem que ser comecada a contruir
     private void changeDay(int day){

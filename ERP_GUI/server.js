@@ -64,6 +64,16 @@ app.get('/api/current_minute', async (req, res) => {
     }
 });
 
+app.get('/api/refused_order', async (req, res) => {
+    try {
+        const result = await client.query("SELECT * FROM infi2024.refused_order");
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching planning data');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
