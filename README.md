@@ -22,19 +22,16 @@ Experience the ERP system in action! Check out the project demo on [YouTube](htt
 
 ## 🛠️ Technologies Used
 
-- **Python:** Backend logic implemented using Django framework.
-- **JavaScript:** Dynamic frontend components and interactivity.
-- **HTML/CSS:** Responsive and intuitive user interface design.
-- **Django:** Robust framework for web application development.
-- **SQLite/MySQL:** Database management for storing and querying data.
-- **REST API:** Exposing and consuming services through RESTful APIs.
+- **C Programming:** Core logic and business rules implemented in C.
+- **Embedded Systems:** Designed to run on specific hardware platforms.
+- **Modular Codebase:** Organized code allowing easy maintenance and scalability.
+- **File-based Database:** Efficient data storage using file handling in C.
 
 ## 📦 Repository Structure
 
-- `/src` - Contains the core application code, including models, views, and templates.
-- `/static` - Static assets like CSS, JavaScript, and images.
+- `/src` - Contains the core application code, including the main business logic.
 - `/docs` - Documentation and guides for users and developers.
-- `/migrations` - Database migration files to manage schema changes.
+- `/config` - Configuration files and settings for the ERP system.
 
 ## 📝 Setup Instructions
 
@@ -42,8 +39,8 @@ Experience the ERP system in action! Check out the project demo on [YouTube](htt
 
 Before running this project, ensure you have the following installed:
 
-- **Python 3.8+**: [Download Python](https://www.python.org/downloads/)
-- **Pipenv**: Install via pip (`pip install pipenv`)
+- **C Compiler**: GCC or any other standard C compiler.
+- **Make**: For building the project.
 - **Git**: [Download Git](https://git-scm.com/downloads)
 
 ### Installation Steps
