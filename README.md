@@ -16,9 +16,9 @@ The Enterprise Resource Planning (ERP) System is a comprehensive solution design
 
 ## 🎥 Project Demo
 
-Experience the ERP system in action! Check out the project demo on [YouTube](#) (replace with your link if you have a video).
+Experience the ERP system in action! Check out the project demo on [YouTube](https://youtu.be/18UAGtivYn0?si=jbBlaCT_KencRaW0).
 
-[![ERP System Demo](https://img.youtube.com/vi/your-video-id/0.jpg)](#) (replace with your video link)
+[![ERP System Demo](https://img.youtube.com/vi/18UAGtivYn0/0.jpg)](https://youtu.be/18UAGtivYn0?si=jbBlaCT_KencRaW0)
 
 ## 🛠️ Technologies Used
 
