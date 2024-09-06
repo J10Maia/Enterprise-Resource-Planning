@@ -43,5 +43,5 @@ Where:
 If you have any questions, suggestions, or feedback, feel free to reach out to me:
 
 - **LinkedIn:** [João Maia](https://www.linkedin.com/in/your-linkedin-profile/)
-- **Email:** [your.email@domain.com](mailto:your.email@domain.com)
+- **Email:** [your.email@domain.com](mailto:joaomaia@live.com.pt)
 
