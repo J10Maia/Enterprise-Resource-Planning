@@ -19,10 +19,9 @@ The Enterprise Resource Planning (ERP) System is a comprehensive solution design
 
 ## 🛠️ Technologies Used
 
-- **Backend:** Python (Django)
+- **Backend:** Java
+- **Frontend:** JavaScript
 - **Database:** PostgreSQL
-- **APIs:** RESTful APIs for communication with MES and other components
-- **Deployment:** Docker for containerized deployment
 - **Version Control:** Git
 
 ![Technology Stack](https://media.giphy.com/media/l41YtZOb9EUABnuqA/giphy.gif)
