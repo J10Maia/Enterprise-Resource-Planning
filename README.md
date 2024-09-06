@@ -1,6 +1,6 @@
 # 📊 Enterprise Resource Planning (ERP) System
 
-![ERP Overview](https://media.giphy.com/media/fAnzw6YK33jMwzp5wp/giphy.gif)
+![ERP Overview](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM25sb2toZDFsYnlhNDczeXlhdzZucjlpYWs3Nmp2Y3piMzZ6bHdsaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gVlgj80ZLp9yo/giphy.webp)
 
 ## Overview
 
