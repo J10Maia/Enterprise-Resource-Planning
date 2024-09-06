@@ -46,7 +46,3 @@ If you have any questions, suggestions, or feedback, feel free to reach out to m
 - **Email:** [your.email@domain.com](mailto:your.email@domain.com)
 
 ---
-
-```bash
-cd src/backend
-python manage.py test
