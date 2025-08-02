@@ -1,7 +1,5 @@
 # 📊 Enterprise Resource Planning (ERP) System
 
-![ERP Overview](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM25sb2toZDFsYnlhNDczeXlhdzZucjlpYWs3Nmp2Y3piMzZ6bHdsaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gVlgj80ZLp9yo/giphy.webp)
-
 ## Overview
 
 The Enterprise Resource Planning (ERP) System is a comprehensive solution designed to streamline the management and execution of client orders, production schedules, and resource allocation in a flexible production line environment. This ERP module is a crucial component in a larger industrial automation project, providing essential functions like client order management, production scheduling, and cost calculation to ensure efficient and profitable operations.
